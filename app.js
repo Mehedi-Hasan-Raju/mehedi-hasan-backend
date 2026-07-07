@@ -11,6 +11,7 @@ import timelineRouter from "./router/timelineRoute.js";
 import applicationRouter from "./router/softwareApplicationRoute.js";
 import skillRouter from "./router/skillRoutes.js";
 import projectRouter from "./router/projectRoute.js";
+import fs from "fs";
 
 
 const app = express();
@@ -28,9 +29,13 @@ app.use (cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
+if (!fs.existsSync("./temp")) {
+    fs.mkdirSync("./temp", { recursive: true });
+}
+
 app.use(fileUpload({
     useTempFiles: true,
-    tempFileDir: "/temp/",
+    tempFileDir: "./temp/",
 }));
 
 app.use("/api/v1/message", messageRouter);
